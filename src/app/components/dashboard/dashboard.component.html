@@ -1,0 +1,124 @@
+<div class="dashboard-container">
+	<h1>Dashboard</h1>
+
+	<div class="summary-cards">
+		<!-- Task Summary -->
+		@if (taskSummary; as summary) {
+			<div class="summary-card task-summary">
+				<h3>Task Summary</h3>
+				<div class="summary-stats">
+					<div class="stat">
+						<span class="stat-value">{{ summary.total }}</span>
+						<span class="stat-label">Total Tasks</span>
+					</div>
+					<div class="stat">
+						<span class="stat-value">{{ summary.completed }}</span>
+						<span class="stat-label">Completed</span>
+					</div>
+					<div class="stat">
+						<span class="stat-value">{{ summary.pending }}</span>
+						<span class="stat-label">Pending</span>
+					</div>
+				</div>
+				<div class="priority-stats">
+					<div class="priority high">
+						<span class="priority-label">High:</span>
+						<span class="priority-value">{{ summary.highPriority }}</span>
+					</div>
+					<div class="priority medium">
+						<span class="priority-label">Medium:</span>
+						<span class="priority-value">{{ summary.mediumPriority }}</span>
+					</div>
+					<div class="priority low">
+						<span class="priority-label">Low:</span>
+						<span class="priority-value">{{ summary.lowPriority }}</span>
+					</div>
+				</div>
+			</div>
+		}
+
+		<!-- User Summary -->
+		@if (userSummary; as summary) {
+			<div class="summary-card user-summary">
+				<h3>User Summary</h3>
+				<div class="summary-stats">
+					<div class="stat">
+						<span class="stat-value">{{ summary.total }}</span>
+						<span class="stat-label">Total Users</span>
+					</div>
+					<div class="stat">
+						<span class="stat-value">{{ summary.active }}</span>
+						<span class="stat-label">Active</span>
+					</div>
+					<div class="stat">
+						<span class="stat-value">{{ summary.inactive }}</span>
+						<span class="stat-label">Inactive</span>
+					</div>
+				</div>
+				<div class="role-stats">
+					<div class="role admin">
+						<span class="role-label">Admins:</span>
+						<span class="role-value">{{ summary.admins }}</span>
+					</div>
+					<div class="role user">
+						<span class="role-label">Users:</span>
+						<span class="role-value">{{ summary.users }}</span>
+					</div>
+					<div class="role guest">
+						<span class="role-label">Guests:</span>
+						<span class="role-value">{{ summary.guests }}</span>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+
+	<!-- Recent Tasks -->
+	<div class="recent-tasks-section">
+		<h3>Recently Updated Tasks</h3>
+		<div class="tasks-list">
+			@for (task of recentTasks; track task.id) {
+				<div class="task-item">
+					<div class="task-header">
+						<span class="task-title" [class.completed]="task.completed">{{ task.title }}</span>
+						<span class="task-priority" [class]="task.priority">{{ task.priority }}</span>
+					</div>
+					<div class="task-meta">
+						<span class="task-assignee">Assigned to: {{ getUserName(task.assignedTo) }}</span>
+						<span class="task-updated">Updated: {{ task.updatedAt | date: 'short' }}</span>
+					</div>
+				</div>
+			}
+
+			@if (!highPriorityTasks.length) {
+				<div class="no-tasks-message">No recently updated tasks.</div>
+			}
+		</div>
+	</div>
+
+	<!-- High Priority Tasks -->
+	<div class="high-priority-section">
+		<h3>High Priority Tasks</h3>
+		<div class="tasks-list">
+			@for (task of highPriorityTasks; track task.id) {
+				<div class="task-item">
+					<div class="task-header">
+						<span class="task-title">{{ task.title }}</span>
+					</div>
+					<div class="task-description">{{ task.description }}</div>
+					<div class="task-meta">
+						<span class="task-assignee">Assigned to: {{ getUserName(task.assignedTo) }}</span>
+
+						@if (task.dueDate) {
+							<span class="task-due-date">Due: {{ task.dueDate | date: 'mediumDate' }}</span>
+						}
+					</div>
+				</div>
+			}
+
+			@if (!highPriorityTasks.length) {
+				<div class="no-tasks-message">No high priority tasks.</div>
+			}
+		</div>
+	</div>
+</div>

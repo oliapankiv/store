@@ -1,0 +1,57 @@
+<div class="login-container">
+	<div class="login-card">
+		<h2>Login</h2>
+
+		<form class="login-form" (ngSubmit)="login()">
+			<div class="form-group">
+				<label for="email">Email</label>
+				<input
+					id="email"
+					placeholder="Enter your email"
+					name="email"
+					required
+					type="email"
+					[(ngModel)]="credentials.email"
+					(focus)="clearError()"
+				/>
+			</div>
+
+			<div class="form-group">
+				<label for="password">Password</label>
+				<input
+					id="password"
+					placeholder="Enter your password"
+					name="password"
+					required
+					type="password"
+					[(ngModel)]="credentials.password"
+					(focus)="clearError()"
+				/>
+			</div>
+
+			@if (loginError(); as error) {
+				<div class="login-error">{{ error }}</div>
+			}
+
+			<button
+				class="login-button"
+				type="submit"
+				[disabled]="!credentials.email || !credentials.password || loading()"
+			>
+				{{ loading() ? 'Logging in...' : 'Login' }}
+			</button>
+		</form>
+
+		<div class="login-demo-info">
+			<p>Demo Credentials:</p>
+			<p>
+				<strong>Email:</strong>
+				adminexample.com
+			</p>
+			<p>
+				<strong>Password:</strong>
+				admin123
+			</p>
+		</div>
+	</div>
+</div>

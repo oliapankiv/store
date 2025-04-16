@@ -1,0 +1,131 @@
+<div class="task-list-container">
+	<div class="task-header">
+		<h2>Task Management</h2>
+		<button class="add-task-btn" (click)="toggleNewTaskForm()">
+			{{ showNewTaskForm ? 'Cancel' : 'Add New Task' }}
+		</button>
+	</div>
+
+	<!-- New Task Form -->
+	@if (showNewTaskForm) {
+		<div class="new-task-form">
+			<form (ngSubmit)="addTask()">
+				<div class="form-group">
+					<label for="title">Title:</label>
+					<input id="title" name="title" required type="text" [(ngModel)]="newTask.title" />
+				</div>
+				<div class="form-group">
+					<label for="description">Description:</label>
+					<textarea id="description" name="description" [(ngModel)]="newTask.description"></textarea>
+				</div>
+				<div class="form-group">
+					<label for="priority">Priority:</label>
+					<select id="priority" name="priority" [(ngModel)]="newTask.priority">
+						<option value="low">Low</option>
+						<option value="medium">Medium</option>
+						<option value="high">High</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="assignedTo">Assign To:</label>
+					<select id="assignedTo" name="assignedTo" [(ngModel)]="newTask.assignedTo">
+						<option [ngValue]="null">Unassigned</option>
+						@for (user of users(); track user.id) {
+							<option [value]="user.id">{{ user.name }}</option>
+						}
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="dueDate">Due Date:</label>
+					<input id="dueDate" name="dueDate" type="date" [(ngModel)]="newTask.dueDate" />
+				</div>
+				<div class="form-actions">
+					<button class="submit-btn" type="submit">Create Task</button>
+					<button class="cancel-btn" type="button" (click)="toggleNewTaskForm()">Cancel</button>
+				</div>
+			</form>
+		</div>
+	}
+
+	<!-- Filter Options -->
+	<div class="task-filters">
+		<div class="filter-group">
+			<label>Show Completed:</label>
+			<input type="checkbox" [(ngModel)]="showCompletedTasks" (change)="toggleShowCompleted()" />
+		</div>
+		<div class="filter-group">
+			<label>Priority Filter:</label>
+			<select [(ngModel)]="priorityFilter" (change)="filterByPriority(priorityFilter)">
+				<option [ngValue]="null">All Priorities</option>
+				<option value="low">Low</option>
+				<option value="medium">Medium</option>
+				<option value="high">High</option>
+			</select>
+		</div>
+	</div>
+
+	<!-- Loading Indicator -->
+	@if (loading()) {
+		<div class="loading-spinner">Loading tasks...</div>
+	}
+
+	<!-- Error Message -->
+	@if (error(); as error) {
+		<div class="error-message">{{ error }}</div>
+	}
+
+	<!-- Tasks List -->
+	<div class="tasks-grid">
+		@for (task of tasks(); track task.id) {
+			<div class="task-card" [class.completed]="task.completed">
+				<div class="task-header">
+					<div class="task-status">
+						<input type="checkbox" [checked]="task.completed" (change)="toggleTaskCompletion(task)" />
+					</div>
+					<div class="task-title" [class.completed]="task.completed">
+						{{ task.title }}
+					</div>
+					<div class="task-actions">
+						<button class="delete-btn" (click)="deleteTask(task.id)">Delete</button>
+					</div>
+				</div>
+
+				<div class="task-details">
+					<div class="task-description">{{ task.description }}</div>
+
+					<div class="task-metadata">
+						<div class="task-priority" [class]="task.priority">
+							Priority:
+							<select [ngModel]="task.priority" (ngModelChange)="updateTaskPriority(task, $event)">
+								<option value="low">Low</option>
+								<option value="medium">Medium</option>
+								<option value="high">High</option>
+							</select>
+						</div>
+
+						<div class="task-assignment">
+							Assigned To:
+							<select [ngModel]="task.assignedTo" (ngModelChange)="assignTaskToUser(task, $event)">
+								<option [ngValue]="null">Unassigned</option>
+								@for (user of users(); track user.id) {
+									<option [value]="user.id">
+										{{ user.name }}
+									</option>
+								}
+							</select>
+						</div>
+
+						@if (task.dueDate) {
+							<div class="task-due-date">Due: {{ task.dueDate | date: 'mediumDate' }}</div>
+						}
+					</div>
+				</div>
+			</div>
+		}
+
+		<!-- Empty State -->
+		@if (!tasks().length) {
+			<div class="no-tasks-message">No tasks found matching your filters.</div>
+		}
+	</div>
+</div>

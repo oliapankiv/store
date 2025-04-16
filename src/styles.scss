@@ -1,1 +1,268 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	line-height: 1.6;
+	color: #333;
+	background-color: #f7f9fc;
+}
+
+.app-container {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+.app-header {
+	background-color: #3f51b5;
+	color: white;
+	padding: 1rem 2rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.app-logo {
+	font-size: 1.5rem;
+	font-weight: bold;
+}
+
+.app-nav {
+	display: flex;
+	gap: 1rem;
+}
+
+.app-nav a {
+	color: white;
+	text-decoration: none;
+	padding: 0.5rem 1rem;
+	border-radius: 4px;
+	transition: background-color 0.2s;
+}
+
+.app-nav a:hover,
+.app-nav a.active {
+	background-color: rgba(255, 255, 255, 0.2);
+}
+
+.app-content {
+	flex: 1;
+	padding: 2rem;
+	max-width: 1200px;
+	margin: 0 auto;
+	width: 100%;
+}
+
+.app-footer {
+	background-color: #f1f1f1;
+	padding: 1rem 2rem;
+	text-align: center;
+	font-size: 0.9rem;
+	color: #666;
+}
+
+.task-header {
+	display: flex;
+}
+
+.dashboard-container,
+.user-list-container,
+.user-detail-container,
+.task-list-container {
+	background-color: white;
+	border-radius: 8px;
+	padding: 1.5rem;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.summary-cards {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	gap: 1.5rem;
+	margin-bottom: 2rem;
+}
+
+.summary-card {
+	background-color: white;
+	border-radius: 8px;
+	padding: 1.5rem;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.user-card,
+.task-card {
+	background-color: white;
+	border-radius: 8px;
+	padding: 1rem;
+	margin-bottom: 1rem;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+	transition:
+		transform 0.2s,
+		box-shadow 0.2s;
+}
+
+.user-card:hover,
+.task-card:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+.name {
+	margin-right: 20px;
+}
+
+.form-group {
+	margin-bottom: 1rem;
+}
+
+.form-group label {
+	display: block;
+	margin-bottom: 0.5rem;
+	font-weight: 500;
+}
+
+.form-group input[type='text'],
+.form-group input[type='email'],
+.form-group input[type='date'],
+.form-group select,
+.form-group textarea {
+	width: 100%;
+	padding: 0.75rem;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	font-size: 1rem;
+}
+
+.form-actions {
+	display: flex;
+	gap: 1rem;
+	margin-top: 1.5rem;
+}
+
+button {
+	padding: 0.6rem 1.2rem;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	font-size: 0.9rem;
+	transition: background-color 0.2s;
+}
+
+.submit-btn,
+.save-button {
+	background-color: #4caf50;
+	color: white;
+}
+
+.submit-btn:hover,
+.save-button:hover {
+	background-color: #43a047;
+}
+
+.cancel-btn,
+.cancel-button {
+	background-color: #f44336;
+	color: white;
+}
+
+.cancel-btn:hover,
+.cancel-button:hover {
+	background-color: #e53935;
+}
+
+.edit-button {
+	background-color: #2196f3;
+	color: white;
+}
+
+.edit-button:hover {
+	background-color: #1e88e5;
+}
+
+.add-task-btn {
+	background-color: #673ab7;
+	color: white;
+	margin-left: 30px;
+}
+
+.add-task-btn:hover {
+	background-color: #5e35b1;
+}
+
+.task-filters {
+	margin-bottom: 30px;
+}
+
+.filters-container {
+	display: flex;
+	margin-bottom: 30px;
+}
+
+.role-filter {
+	margin: 0 50px;
+}
+
+.high {
+	color: #f44336;
+}
+
+.medium {
+	color: #ff9800;
+}
+
+.low {
+	color: #4caf50;
+}
+
+.admin {
+	color: #673ab7;
+}
+
+.user {
+	color: #2196f3;
+}
+
+.guest {
+	color: #757575;
+}
+
+.active {
+	color: #4caf50;
+}
+
+.inactive {
+	color: #f44336;
+}
+
+.completed {
+	text-decoration: line-through;
+	color: #9e9e9e;
+}
+
+.loading-spinner {
+	display: flex;
+	justify-content: center;
+	padding: 2rem;
+	color: #666;
+}
+
+.error-message {
+	background-color: #ffebee;
+	color: #c62828;
+	padding: 1rem;
+	border-radius: 4px;
+	margin-bottom: 1rem;
+}
+
+.no-tasks-message,
+.no-users-message,
+.no-user-selected {
+	text-align: center;
+	padding: 2rem;
+	color: #757575;
+}
